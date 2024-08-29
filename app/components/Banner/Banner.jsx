@@ -73,32 +73,33 @@ const Banner = () => {
             padding: 0,
           }}
         />
-
-        {/* Overlay content */}
-        <div
-          className="overlay-content"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#fff",
-            zIndex: 1, // Ensures the content appears above the video
-          }}
-        >
-          <h1 className="banner_head">
-            All In One <span style={{ color: "#e72e77" }}>Event Services</span>{" "}
-            Marketplace
-          </h1>
-          <h1 className="banner_head2">
-            Let's Find The Best Vendors In Your Own City
-          </h1>
-          {/* <div className="banner-dropdown" style={{ marginTop: "20px" }}>
+        <Container>
+          {/* Overlay content */}
+          <div
+            className="overlay-content"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+              zIndex: 1, // Ensures the content appears above the video
+            }}
+          >
+            <h1 className="banner_head">
+              All In One{" "}
+              <span style={{ color: "#e72e77" }}>Event Services</span>{" "}
+              Marketplace
+            </h1>
+            <h1 className="banner_head2">
+              Let's Find The Best Vendors In Your Own City
+            </h1>
+            {/* <div className="banner-dropdown" style={{ marginTop: "20px" }}>
             <FormControl variant="standard" sx={{ m: 1, minWidth: 220 }}>
               <InputLabel id="demo-simple-select-standard-label">
                 Select Vendor Type
@@ -159,7 +160,8 @@ const Banner = () => {
               Search
             </Button>
           </div> */}
-        </div>
+          </div>
+        </Container>
       </div>
     </div>
   );
