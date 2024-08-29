@@ -1,0 +1,90 @@
+.main_head {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 20px;
+}
+
+.nav {
+  display: flex;
+  gap: 60px;
+}
+
+.nav h3 {
+  cursor: pointer;
+  position: relative;
+}
+
+.nav h3::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: white;
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s ease-in-out;
+}
+
+.nav h3:hover {
+  color: #fff;
+}
+
+.nav h3:hover::after {
+  width: 100%;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile h5 {
+  cursor: pointer;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+
+  .hamburger-menu {
+    display: block;
+    cursor: pointer;
+  }
+
+  .logo-container-mobile {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .avatar-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .profile {
+    display: none;
+  }
+
+  .main_head {
+    justify-content: space-between;
+    padding: 10px;
+  }
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
