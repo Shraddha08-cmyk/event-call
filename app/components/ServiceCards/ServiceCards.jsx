@@ -5,7 +5,7 @@ import "./ServiceCards.css";
 import Container from "../Container/Container";
 
 const ServiceCards = () => {
-  const [visibleRows, setVisibleRows] = useState(1); // Control the number of rows to display
+  const [visibleRows, setVisibleRows] = useState(1);
 
   const projects = [
     {
@@ -73,8 +73,7 @@ const ServiceCards = () => {
     },
   ];
 
-  // Calculate the number of rows to display based on visibleRows
-  const itemsPerRow = 4; // Assume 3 items per row for a grid
+  const itemsPerRow = 4;
   const visibleProjects = projects.slice(0, visibleRows * itemsPerRow);
 
   const handleSeeMore = () => {

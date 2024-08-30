@@ -36,7 +36,6 @@ const Dropdown = () => {
   };
 
   return (
-    // <div >
     <Container>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div className="banner-dropdown" style={{ marginTop: "20px" }}>
@@ -102,7 +101,6 @@ const Dropdown = () => {
         </div>
       </div>
     </Container>
-    // </div>
   );
 };
 

@@ -33,6 +33,7 @@ const Header = () => {
   const navigateToContact = () => {
     router.push("/contact-us");
   };
+
   const navigateToAbout = () => {
     router.push("/about");
   };

@@ -6,8 +6,19 @@ import Container from "../Container/Container";
 import logo from "../../../public/images/eventcall-transparent.png";
 import Image from "next/image";
 import { Facebook, Instagram, Twitter, YouTube } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
+  const router = useRouter();
+
+  const navigateToContact = () => {
+    router.push("/contact-us");
+  };
+
+  const navigateToAbout = () => {
+    router.push("/about");
+  };
+
   return (
     <>
       <Container>
@@ -23,8 +34,8 @@ const Footer = () => {
           </div>
           <div className="company">
             <h3>Company</h3>
-            <h5>About Us</h5>
-            <h5>Contact</h5>
+            <h5 onClick={navigateToAbout}>About Us</h5>
+            <h5 onClick={navigateToContact}>Contact</h5>
             <h5>Blog</h5>
           </div>
           <div className="support">
