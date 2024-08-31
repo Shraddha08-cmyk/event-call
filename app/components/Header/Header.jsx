@@ -16,7 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { useRouter } from "next/navigation";
 
-const Header = () => {
+const Header = ({ categoryRef }) => {
   const { width } = useDimension();
   const isMobile = width < 768;
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -36,6 +36,12 @@ const Header = () => {
 
   const navigateToAbout = () => {
     router.push("/about");
+  };
+
+  const handleViewServicesClick = () => {
+    if (categoryRef.current) {
+      categoryRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -113,7 +119,7 @@ const Header = () => {
           <>
             <div className="nav">
               <h3 onClick={navigateToAbout}>About</h3>
-              <h3>Services</h3>
+              <h3 onClick={handleViewServicesClick}>Services</h3>
               <h3 onClick={navigateToContact}>Contact</h3>
             </div>
             <div className="profile">

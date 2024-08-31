@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import "./ServiceCards.css";
 import Container from "../Container/Container";
 
-const ServiceCards = () => {
+const ServiceCards = forwardRef((props, ref) => {
   const [visibleRows, setVisibleRows] = useState(1);
 
   const projects = [
@@ -81,7 +81,7 @@ const ServiceCards = () => {
   };
 
   return (
-    <div id="portfolio">
+    <div id="portfolio" ref={ref}>
       <Container>
         <h1 className="sub-title">Vendor's Categories</h1>
         <div className="work-list">
@@ -110,6 +110,6 @@ const ServiceCards = () => {
       </Container>
     </div>
   );
-};
+});
 
 export default ServiceCards;
