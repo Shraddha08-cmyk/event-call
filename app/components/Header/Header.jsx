@@ -85,7 +85,10 @@ const Header = ({ categoryRef }) => {
                   <ListItemText primary="About" />
                 </ListItem>
                 <ListItem button onClick={toggleDrawer(false)}>
-                  <ListItemText primary="Services" />
+                  <ListItemText
+                    primary="Services"
+                    onClick={handleViewServicesClick}
+                  />
                 </ListItem>
                 <ListItem
                   button
