@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Container from "../Container/Container";
 
-const videos = ["/videos/treaser.mp4"];
+const videos = ["/videos/banner.mp4"];
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -57,6 +57,7 @@ const Banner = () => {
           autoPlay
           muted
           loop
+          preload="auto"
           className="banner-video"
           style={{
             position: "absolute",

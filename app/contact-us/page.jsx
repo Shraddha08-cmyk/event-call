@@ -24,33 +24,81 @@ const ContactPage = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    let validValue = value;
+
+    if (name === "name") {
+      validValue = value.replace(/[^a-zA-Z\s]/g, "");
+    } else if (name === "email") {
+      validValue = value;
+    } else if (name === "mobile") {
+      validValue = value.replace(/[^0-9+]/g, "");
+
+      if (validValue.startsWith("0")) {
+        validValue = "+91" + validValue.replace(/^0+/, "");
+      } else if (!validValue.startsWith("+91")) {
+        validValue = "+91" + validValue.replace(/^\+91/, "");
+      }
+    } else if (name === "subject") {
+      validValue = value.replace(/[^\w\s]/gi, "");
+    }
+
+    setFormData({ ...formData, [name]: validValue });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const serviceId = "service_bfu5guc";
-    const templateId = "template_5ezwqwo";
-    const userId = "XLZ0bp4QXCwomoLMf";
+    if (!validateEmail(formData.email)) {
+      toast.error("Please enter a valid email address.", {
+        position: "top-center",
+      });
+      return;
+    }
 
-    emailjs.send(serviceId, templateId, formData, userId).then(
-      (response) => {
-        console.log("SUCCESS!", response.status, response.text);
-        toast.success("Message Sent Successfully!", {
-          position: "top-center",
-        });
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-      },
-      (err) => {
-        console.log("FAILED...", err);
-        toast.error("Failed to send the message. Please try again.", {
-          position: "top-center",
-        });
-      }
-    );
+    const fromName = formData.name ? formData.name : formData.email;
+
+    const emailParams = {
+      from_name: fromName,
+      email: formData.email,
+      mobile: formData.mobile,
+      subject: formData.subject,
+      message: formData.message,
+    };
+
+    emailjs
+      .send(
+        "service_bfu5guc",
+        "template_5ezwqwo",
+        emailParams,
+        "XLZ0bp4QXCwomoLMf"
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+          toast.success(
+            "Thanks For Reaching Us! We'll get in touch with you soon!",
+            {
+              position: "top-center",
+            }
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        },
+        (err) => {
+          console.log("FAILED...", err);
+          toast.error("Failed to send the message. Please try again.", {
+            position: "top-center",
+          });
+        }
+      );
   };
 
   useEffect(() => {

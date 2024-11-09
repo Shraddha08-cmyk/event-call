@@ -1,156 +1,3 @@
-// "use client";
-
-// import "./dashboard.css";
-// import React, { useState, useEffect } from "react";
-// import Header from "../components/Header/Header";
-// import Footer from "../components/Footer/Footer";
-// import Container from "../components/Container/Container";
-// import Loader from "../components/Loader/Loader";
-// import {
-//   TextField,
-//   MenuItem,
-//   Select,
-//   InputLabel,
-//   FormControl,
-// } from "@mui/material";
-
-// const dashboardPage = () => {
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [services, setServices] = useState("");
-//   const [imageFiles, setImageFiles] = useState([]);
-
-//   useEffect(() => {
-//     setTimeout(() => {
-//       setIsLoading(false);
-//     }, 2000);
-//   }, []);
-
-//   const handleServiceChange = (event) => {
-//     setServices(event.target.value);
-//   };
-
-//   const handleImageUpload = (event) => {
-//     const files = Array.from(event.target.files);
-
-//     if (imageFiles.length + files.length <= 8) {
-//       setImageFiles((prevFiles) => [...prevFiles, ...files]);
-//     } else {
-//       alert("You can upload up to 8 images only.");
-//     }
-//   };
-
-//   return (
-//     <>
-//       {isLoading ? (
-//         <Loader />
-//       ) : (
-//         <div
-//           style={{
-//             background: "linear-gradient(to right, #ffffff 0%, #e72e77 87%)",
-//           }}
-//         >
-//           <Header />
-//           <Container>
-//             <div>
-//               <div style={{ display: "flex", gap: "20px" }}>
-//                 <TextField label="Business Name" fullWidth margin="normal" />
-//                 <TextField label="Owner Name" fullWidth margin="normal" />
-//               </div>
-//               <div style={{ display: "flex", gap: "20px" }}>
-//                 <TextField label="Email" fullWidth margin="normal" />
-//                 <TextField label="Phone" fullWidth margin="normal" />
-//               </div>
-
-//               <div style={{ display: "flex", gap: "20px" }}>
-//                 <FormControl fullWidth margin="normal">
-//                   <InputLabel id="services-label">Services</InputLabel>
-//                   <Select
-//                     labelId="services-label"
-//                     value={services}
-//                     label="Services"
-//                     onChange={handleServiceChange}
-//                   >
-//                     <MenuItem value={"Makeup Artist"}>Makeup Artist</MenuItem>
-//                     <MenuItem value={"Mehandi Artist"}>Mehandi Artist</MenuItem>
-//                     <MenuItem value={"Photography"}>Photography</MenuItem>
-//                     <MenuItem value={"DJ"}>DJ</MenuItem>
-//                     <MenuItem value={"Decoration"}>Decoration</MenuItem>
-//                     <MenuItem value={"Choreographer"}>Choreographer</MenuItem>
-//                     <MenuItem value={"Catering"}>Catering</MenuItem>
-//                     <MenuItem value={"Bride and Groom Wear"}>
-//                       Bride & Groom Wear
-//                     </MenuItem>
-//                     <MenuItem value={"Venue"}>Venue</MenuItem>
-//                     <MenuItem value={"Anchor"}>Anchor</MenuItem>
-//                   </Select>
-//                 </FormControl>
-
-//                 <TextField label="Location" fullWidth margin="normal" />
-//               </div>
-
-//               <div style={{ display: "flex", gap: "20px" }}>
-//                 <TextField
-//                   label="Bio"
-//                   multiline
-//                   rows={4}
-//                   fullWidth
-//                   margin="normal"
-//                 />
-
-//                 <TextField
-//                   label="Website URL"
-//                   type="url"
-//                   fullWidth
-//                   margin="normal"
-//                 />
-//               </div>
-
-//               <input
-//                 accept="image/*"
-//                 type="file"
-//                 multiple
-//                 onChange={handleImageUpload}
-//                 style={{ margin: "16px 0", display: "block" }}
-//               />
-
-//               {imageFiles.length > 0 && (
-//                 <div style={{ marginTop: "16px" }}>
-//                   <div
-//                     style={{
-//                       display: "grid",
-//                       gridTemplateColumns: "repeat(4, 1fr)",
-//                       gap: "8px",
-//                       maxWidth: "100%",
-//                     }}
-//                   >
-//                     {imageFiles.map((file, index) => (
-//                       <div key={index} style={{ position: "relative" }}>
-//                         <img
-//                           src={URL.createObjectURL(file)}
-//                           alt={`uploaded ${index}`}
-//                           style={{
-//                             width: "100%",
-//                             height: "auto",
-//                             objectFit: "cover",
-//                             borderRadius: "4px",
-//                           }}
-//                         />
-//                       </div>
-//                     ))}
-//                   </div>
-//                 </div>
-//               )}
-//             </div>
-//           </Container>
-//           <Footer />
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default dashboardPage;
-// dashboardPage.js
 "use client";
 
 import "./dashboard.css";
@@ -166,11 +13,16 @@ import {
   InputLabel,
   FormControl,
   Button,
+  IconButton,
 } from "@mui/material";
-import { db } from "../firebase"; // Importing the firebase config
+import DeleteIcon from "@mui/icons-material/Delete";
+import { db, storage } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const dashboardPage = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [services, setServices] = useState("");
   const [imageFiles, setImageFiles] = useState([]);
@@ -212,15 +64,39 @@ const dashboardPage = () => {
     }
   };
 
+  const handleDeleteImage = (index) => {
+    const updatedImages = imageFiles.filter((_, i) => i !== index);
+    setImageFiles(updatedImages);
+  };
+
   const handleSubmit = async () => {
     try {
+      const imageUrls = [];
+
+      // Upload images to Firebase Storage
+      for (const file of imageFiles) {
+        const storageRef = ref(storage, `images/${file.name}`);
+        await uploadBytes(storageRef, file);
+
+        // Get the download URL and store it
+        const downloadURL = await getDownloadURL(storageRef);
+        imageUrls.push(downloadURL);
+      }
+
+      // Save vendor data to Firestore, including image URLs
       const docRef = await addDoc(collection(db, "vendors"), {
         ...formData,
         services,
-        images: imageFiles.map((file) => file.name), // Assuming you're storing image URLs or names
+        images: imageUrls,
         createdAt: new Date(),
+        status: null, // Initialize status as null
       });
+
       alert("Document written with ID: " + docRef.id);
+
+      // Redirect to the specific service page based on the selected service
+      const serviceRoute = services.toLowerCase().replace(/\s/g, "");
+      router.push(`/services/${serviceRoute}`);
     } catch (error) {
       console.error("Error adding document: ", error);
     }
@@ -271,7 +147,6 @@ const dashboardPage = () => {
                   onChange={handleInputChange}
                 />
               </div>
-
               <div style={{ display: "flex", gap: "20px" }}>
                 <FormControl fullWidth margin="normal">
                   <InputLabel id="services-label">Services</InputLabel>
@@ -285,7 +160,7 @@ const dashboardPage = () => {
                     <MenuItem value={"Mehandi Artist"}>Mehandi Artist</MenuItem>
                     <MenuItem value={"Photography"}>Photography</MenuItem>
                     <MenuItem value={"DJ"}>DJ</MenuItem>
-                    <MenuItem value={"Decoration"}>Decoration</MenuItem>
+                    <MenuItem value={"Decoration"}>Decorators</MenuItem>
                     <MenuItem value={"Choreographer"}>Choreographer</MenuItem>
                     <MenuItem value={"Catering"}>Catering</MenuItem>
                     <MenuItem value={"Bride and Groom Wear"}>
@@ -293,9 +168,9 @@ const dashboardPage = () => {
                     </MenuItem>
                     <MenuItem value={"Venue"}>Venue</MenuItem>
                     <MenuItem value={"Anchor"}>Anchor</MenuItem>
+                    <MenuItem value={"Pandit"}>Pandit</MenuItem>
                   </Select>
                 </FormControl>
-
                 <TextField
                   label="Location"
                   name="location"
@@ -304,7 +179,6 @@ const dashboardPage = () => {
                   onChange={handleInputChange}
                 />
               </div>
-
               <div style={{ display: "flex", gap: "20px" }}>
                 <TextField
                   label="Bio"
@@ -315,7 +189,6 @@ const dashboardPage = () => {
                   margin="normal"
                   onChange={handleInputChange}
                 />
-
                 <TextField
                   label="Website URL"
                   name="websiteUrl"
@@ -325,48 +198,88 @@ const dashboardPage = () => {
                   onChange={handleInputChange}
                 />
               </div>
-
               <input
                 accept="image/*"
                 type="file"
                 multiple
                 onChange={handleImageUpload}
-                style={{ margin: "16px 0", display: "block" }}
+                style={{ margin: "16px 0", display: "none" }}
+                id="file-upload"
               />
-
-              {imageFiles.length > 0 && (
-                <div style={{ marginTop: "16px" }}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 1fr)",
+                  gap: "8px",
+                  marginTop: "16px",
+                }}
+              >
+                {Array.from({ length: 8 }).map((_, index) => (
                   <div
+                    key={index}
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(4, 1fr)",
-                      gap: "8px",
-                      maxWidth: "100%",
+                      position: "relative",
+                      display: "block",
+                      width: "100%",
+                      paddingTop: "100%",
+                      backgroundColor: "#f0f0f0",
+                      borderRadius: "8px",
+                      border: "2px dashed #ccc",
+                      backgroundSize: "cover",
+                      backgroundImage:
+                        imageFiles[index] &&
+                        `url(${URL.createObjectURL(imageFiles[index])})`,
                     }}
                   >
-                    {imageFiles.map((file, index) => (
-                      <div key={index} style={{ position: "relative" }}>
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`uploaded ${index}`}
-                          style={{
-                            width: "100%",
-                            height: "auto",
-                            objectFit: "cover",
-                            borderRadius: "4px",
-                          }}
-                        />
-                      </div>
-                    ))}
+                    {!imageFiles[index] ? (
+                      <label
+                        htmlFor="file-upload"
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          fontSize: "24px",
+                          color: "#ccc",
+                          cursor: "pointer",
+                        }}
+                      >
+                        +
+                      </label>
+                    ) : (
+                      <IconButton
+                        style={{
+                          position: "absolute",
+                          top: "5px",
+                          right: "5px",
+                          backgroundColor: "rgba(255, 255, 255, 0.8)",
+                        }}
+                        size="small"
+                        onClick={() => handleDeleteImage(index)}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    )}
                   </div>
-                </div>
-              )}
-
+                ))}
+              </div>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit}
-                style={{ marginTop: "20px" }}
+                className="btn"
+                style={{
+                  display: "block",
+                  margin: "50px auto",
+                  width: "fit-content",
+                  border: "1px solid #e72e77",
+                  background: "#fff",
+                  padding: "14px 50px",
+                  borderRadius: "6px",
+                  textDecoration: "none",
+                  color: "#e72e77",
+                  transition: "background 0.5s",
+                }}
               >
                 Submit
               </Button>

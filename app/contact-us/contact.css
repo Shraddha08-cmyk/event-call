@@ -77,21 +77,21 @@
 }
 
 .btn-submit {
-  display: block;
-  margin: 10px auto;
-  width: fit-content;
-  border: 1px solid #e72e77;
-  padding: 14px 50px;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #ff004f;
-  transition: background 0.5s;
+  display: block !important;
+  margin: 10px auto !important;
+  width: fit-content !important;
+  border: 1px solid #e72e77 !important;
+  padding: 14px 50px !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  color: #ff004f !important;
+  transition: background 0.5s !important;
 }
 .btn-submit:hover {
-  background: #e72e77;
-  border: 1px solid #e72e77;
-  color: #fff;
-  cursor: pointer;
+  background: #e72e77 !important;
+  border: 1px solid #e72e77 !important;
+  color: #fff !important;
+  cursor: pointer !important;
 }
 
 .custom-textarea {

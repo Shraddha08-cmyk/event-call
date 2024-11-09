@@ -1,0 +1,163 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap");
+
+@font-face {
+  font-family: "OpenSans SemiBold";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Open-Sans SemiBold"), url("../../font/OpenSans-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "OpenSans Regular";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open-Sans Regular"), url("../../font/OpenSans-Regular.ttf");
+}
+
+/* Variables */
+:root {
+  --white: hsl(0, 0%, 100%);
+  --light-pink: hsl(275, 100%, 97%);
+  --grayish-purple: hsl(292, 16%, 49%);
+  --dark-purple: hsl(292, 42%, 14%);
+}
+
+/* Global Styles */
+body {
+  font-family: "Work Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: linear-gradient(145deg, #000 0%, #000 70%, #0d6897 100%);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 0 2rem;
+}
+
+/* Accordion Component */
+.accordion {
+  background: transparent;
+  min-height: min-content;
+  padding: 4rem 3rem 3rem;
+  border-radius: 1.5rem;
+  margin: 20px;
+  border: 0.5px solid var(--white);
+}
+
+.accordion__heading {
+  display: flex;
+  align-items: center;
+  font: 600 35px / 60px "OpenSans SemiBold";
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.accordion__image {
+  margin-right: 2rem;
+}
+
+.accordion__item {
+  padding: 1.5rem 0;
+}
+
+.accordion__item:not(:last-child) {
+  border-bottom: 1px solid var(--light-pink);
+}
+
+.accordion__title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accordion__title-wrapper img {
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.accordion__title {
+  cursor: pointer;
+  color: var(--white);
+  font: normal 400 22px / 48px "OpenSans Regular" !important;
+}
+
+.accordion__description {
+  margin-top: 2rem;
+  line-height: 2rem;
+  font: normal 400 22px / 48px "OpenSans Regular" !important;
+  color: var(--white);
+}
+
+/* Mobile Responsive Styles */
+@media only screen and (max-width: 650px) {
+  .accordion {
+    border-radius: 1rem;
+    width: 100%;
+    margin: 2rem;
+    margin-left: 0;
+  }
+}
+
+/* FAQ Container */
+.faq-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: transparent;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 0 2rem;
+}
+
+.accordion {
+  border: 0.5px solid gray;
+  margin: 20px 0;
+  padding: 4rem 3rem 3rem;
+  border-radius: 1.5rem;
+}
+
+.accordion__heading {
+  font: 600 35px / 60px "OpenSans SemiBold";
+  color: black;
+}
+
+.accordion__title {
+  color: black;
+  font: normal 400 20px / 48px "OpenSans Regular" !important;
+}
+
+.accordion__description {
+  font: normal 400 18px / 48px "OpenSans Regular" !important;
+  color: black;
+}
+
+/* Mobile Responsive Styles for FAQ */
+@media only screen and (max-width: 650px) {
+  .faq-container {
+    padding: 0;
+  }
+  .accordion {
+    padding: 10px;
+    border-radius: 1rem;
+    width: 100%;
+  }
+  .accordion__title {
+    font: normal 400 17px / 30px "OpenSans Regular" !important;
+    color: black;
+  }
+  .accordion__heading {
+    font: 600 32px / 22px "OpenSans SemiBold";
+    color: black;
+  }
+}
