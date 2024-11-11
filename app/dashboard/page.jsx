@@ -160,7 +160,7 @@ const dashboardPage = () => {
                     <MenuItem value={"Mehandi Artist"}>Mehandi Artist</MenuItem>
                     <MenuItem value={"Photography"}>Photography</MenuItem>
                     <MenuItem value={"DJ"}>DJ</MenuItem>
-                    <MenuItem value={"Decoration"}>Decorators</MenuItem>
+                    <MenuItem value={"Decorators"}>Decorators</MenuItem>
                     <MenuItem value={"Choreographer"}>Choreographer</MenuItem>
                     <MenuItem value={"Catering"}>Catering</MenuItem>
                     <MenuItem value={"Bride and Groom Wear"}>
