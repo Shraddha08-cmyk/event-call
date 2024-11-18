@@ -170,6 +170,12 @@ const MakeupArtistPage = () => {
                 >
                   View More
                 </button>
+                {/* <button
+                  className="btn"
+                  onClick={() => router.push(`/editprofile/${vendor.id}`)}
+                >
+                  Edit Profile
+                </button> */}
               </div>
             </CardContent>
           </Card>
