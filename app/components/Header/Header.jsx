@@ -356,6 +356,9 @@ const Header = ({ categoryRef }) => {
                 color="primary"
                 onClick={handleVendorSignup}
                 fullWidth
+                style={{
+                  background: "rgb(231, 46, 119)",
+                }}
               >
                 Continue
               </Button>
@@ -446,6 +449,9 @@ const Header = ({ categoryRef }) => {
                 color="primary"
                 onClick={handleVendorSignup}
                 fullWidth
+                style={{
+                  background: "rgb(231, 46, 119)",
+                }}
               >
                 Submit
               </Button>
