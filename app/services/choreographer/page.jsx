@@ -29,6 +29,7 @@ import {
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import { useRouter } from "next/navigation";
 
 const cities = [
   "Konch",
@@ -46,6 +47,7 @@ const ChoreographerPage = () => {
   const [nonVerifiedVendors, setNonVerifiedVendors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCity, setSelectedCity] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchVendors = async () => {
@@ -96,6 +98,10 @@ const ChoreographerPage = () => {
 
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
+  };
+
+  const handleViewMore = (vendorId) => {
+    router.push(`/vendors/${vendorId}`);
   };
 
   const renderVendors = (vendors) => (
@@ -157,7 +163,11 @@ const ChoreographerPage = () => {
                 {vendor.bio}
               </Typography>
               <div>
-                <button className="btn" style={{ margin: "10px auto" }}>
+                <button
+                  className="btn"
+                  style={{ margin: "10px auto" }}
+                  onClick={() => handleViewMore(vendor.id)}
+                >
                   View More
                 </button>
               </div>

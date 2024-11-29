@@ -29,6 +29,7 @@ import {
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import { useRouter } from "next/navigation";
 
 const cities = [
   "Konch",
@@ -41,6 +42,7 @@ const cities = [
 ];
 
 const DecoratorsPage = () => {
+  const router = useRouter();
   const [premiumVendors, setPremiumVendors] = useState([]);
   const [verifiedVendors, setVerifiedVendors] = useState([]);
   const [nonVerifiedVendors, setNonVerifiedVendors] = useState([]);
@@ -96,6 +98,10 @@ const DecoratorsPage = () => {
 
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
+  };
+
+  const handleViewMore = (vendorId) => {
+    router.push(`/vendors/${vendorId}`);
   };
 
   const renderVendors = (vendors) => (
@@ -157,7 +163,11 @@ const DecoratorsPage = () => {
                 {vendor.bio}
               </Typography>
               <div>
-                <button className="btn" style={{ margin: "10px auto" }}>
+                <button
+                  className="btn"
+                  style={{ margin: "10px auto" }}
+                  onClick={() => handleViewMore(vendor.id)}
+                >
                   View More
                 </button>
               </div>
