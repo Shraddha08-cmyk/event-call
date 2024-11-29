@@ -15,7 +15,7 @@ function Faq({ title, description }) {
     <>
       <div className="accordion__item">
         <div className="accordion__title-wrapper" onClick={handleClick}>
-          <h2 className="accordion__title">{title}</h2>
+          <h3 className="accordion__title">{title}</h3>
           {isActive ? (
             <Remove style={{ color: "#ff8a00" }} />
           ) : (

@@ -26,6 +26,7 @@ import Menu from "@mui/material/Menu";
 import FaqPage from "../components/FAQ's/FaqPage";
 
 const page = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -33,6 +34,10 @@ const page = () => {
       setIsLoading(false);
     }, 2000);
   }, []);
+
+  const goToHome = () => {
+    router.push("/");
+  };
 
   return (
     <>
@@ -97,6 +102,7 @@ const page = () => {
                 fontSize: "medium",
                 fontWeight: "bold",
               }}
+              onClick={() => goToHome()}
             >
               Sign Up
             </Button>
